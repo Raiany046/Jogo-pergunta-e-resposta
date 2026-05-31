@@ -11,7 +11,7 @@ A proposta deve apresentar uma ideia simples, clara e viável para ser desenvolv
 ## 2. Integrantes do grupo
 
 - Nome 1: Raiany Morais Ribeiro
-- Nome 2: Moises de Souza do Carmo
+- Nome 2: Arthur Augusto Silva Conceição
 
 ## 3. Tipo de jogo
 
