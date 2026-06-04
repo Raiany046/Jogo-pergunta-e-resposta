@@ -12,6 +12,7 @@ A proposta deve apresentar uma ideia simples, clara e viável para ser desenvolv
 
 - Nome 1: Raiany Morais Ribeiro
 - Nome 2: Arthur Augusto Silva Conceição
+- Nome 3: Lucas Torres Neves 
 
 ## 3. Tipo de jogo
 
