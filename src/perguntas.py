@@ -40,4 +40,4 @@ pergunta3 = Pergunta(
     dificuldade="facil"
 )
 
-perguntas = [pergunta1, pergunta2, pergunta3]
+lista_perguntas = [pergunta1, pergunta2, pergunta3]
