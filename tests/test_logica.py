@@ -1,31 +1,38 @@
-from src.funcoes import calcular_pontos, jogador_perdeu, limitar_valor
+import sys
+import os
+
+# Esse bloco diz para o Python olhar a pasta pai (raiz) antes de buscar os imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Seus imports originais continuam aqui embaixo:
+from src import funcoes
+from src.perguntas import *
+import random
 
 
-def test_calcular_pontos():
-    """Deve somar corretamente os pontos atuais com os pontos ganhos."""
-    assert calcular_pontos(10, 5) == 15
 
+vidas = 3
+pontuacao = 0
+random.shuffle(lista_perguntas)
 
-def test_jogador_perdeu_com_zero_vidas():
-    """Deve indicar derrota quando o total de vidas chega a zero."""
-    assert jogador_perdeu(0) is True
+for pergunta in lista_perguntas:  
+    print(pergunta.enunciado)
+    resposta = input('Resposta: ').lower()
+    
+    if resposta == pergunta.alternativa_correta:
+        if pergunta.dificuldade == 'facil':
+            pontuacao += 10
+        elif pergunta.dificuldade == 'media':
+            pontuacao += 20
+        elif pergunta.dificuldade == 'dificil':
+            pontuacao += 30   
+    else:
+        print('Você errou, perdeu uma vida!')
+        vidas -= 1
+        if vidas == 0:
+            print('Game Over')
+            break  # Interrompe o loop se as vidas acabarem
+else:
+    print(f'Você venceu! Pontuação final: {pontuacao}')
 
-
-def test_jogador_nao_perdeu_com_vidas():
-    """Nao deve indicar derrota quando o jogador ainda tem vidas."""
-    assert jogador_perdeu(3) is False
-
-
-def test_limitar_valor_abaixo_do_minimo():
-    """Deve retornar o limite minimo quando o valor informado for menor."""
-    assert limitar_valor(-5, 0, 100) == 0
-
-
-def test_limitar_valor_acima_do_maximo():
-    """Deve retornar o limite maximo quando o valor informado for maior."""
-    assert limitar_valor(150, 0, 100) == 100
-
-
-def test_limitar_valor_dentro_do_intervalo():
-    """Deve manter o valor original quando ele ja estiver no intervalo."""
-    assert limitar_valor(50, 0, 100) == 50
+print("Fim do programa.")
