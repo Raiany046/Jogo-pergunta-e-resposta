@@ -1,4 +1,5 @@
 import pygame
+from perguntas import *
 
 # Configurações centrais do jogo (tela, cores e caminhos de arquivos).
 LARGURA_TELA = 800
@@ -17,6 +18,8 @@ CAMINHO_SPRITES = "assets/imagens/spritesheet.bmp"
 
 
 
+
+#criando a tela inicial
 
 
 class Enunciado:
@@ -76,3 +79,16 @@ class Alternativa:
     def foi_clicado(self, posicao_mouse):
         # Retorna True se o clique do mouse aconteceu dentro deste botão
         return self.rect.collidepoint(posicao_mouse)
+    
+
+
+Alternativa1 = Alternativa((100, 400), (200,50), pergunta1.alternativas[0], CINZA, BRANCO, PRETO)
+
+
+
+alternativas_atuais = [] # Lista para armazenar as alternativas atuais, que pode ser atualizada a cada pergunta
+
+#imprime as alternativas na tela, usando um loop para criar um botão para cada alternativa da pergunta atual, num formato 2x2
+for i in range(4): #atribui um valor de posição diferente para cada alternativa, usando o índice i para calcular a posição vertical
+
+    alternativas_atuais.append(Alternativa((100, 400 + i*60), (200,50), pergunta1.alternativas[i], CINZA, BRANCO, PRETO))
