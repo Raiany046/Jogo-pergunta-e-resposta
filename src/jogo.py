@@ -110,19 +110,20 @@ while rodando_menu:
 
 
 
-#começa a rodar o jogo
+
 tela.fill(COR_FUNDO) #limpa a tela para começar o jogo
 
+
+#variáveis de controle do jogo
 
 random.shuffle(lista_perguntas)
 pontuacao = 0
 vidas = 0
-
 indice = 0
 pergunta_carregada = False
 minhas_alts = []
+tempo_inicial = pygame.time.get_ticks()
 
-# (Certifique-se de que 'minhas_alts = []' foi criada antes de entrar aqui)
 
 while rodando:
     tela.fill(COR_FUNDO)
@@ -146,19 +147,23 @@ while rodando:
                     resposta_clicada = alt.texto
                     if resposta_clicada == lista_perguntas[indice].alternativa_correta:
                         pontuacao = pontuar(lista_perguntas[indice], pontuacao)
-                        indice += 1
-                        pergunta_carregada = False  # Próxima pergunta será carregada
-                        tempo_inicial = pygame.time.get_ticks()
                     else:
                         vidas = perder_vida(vidas)
-                        indice += 1
-                        pergunta_carregada = False  # Próxima pergunta será carregada
-                        tempo_inicial = pygame.time.get_ticks()
                         if vidas == 0:
                             rodando = False
 
+                    indice += 1
+                    pergunta_carregada = False  # Próxima pergunta será carregada
+                    tempo_inicial = pygame.time.get_ticks()
+                    break
+            if not rodando or pergunta_carregada is False:
+                break
+
+    if not rodando:
+        break
+
     # 3. Gerenciamento de Carga (Instancia as alternativas uma vez por pergunta)
-    if not pergunta_carregada:
+    if not pergunta_carregada and indice < len(lista_perguntas):
 
         minhas_alts = [] # Limpa as anteriores para carregar as novas
 
@@ -177,11 +182,10 @@ while rodando:
         pergunta_carregada = True
 
     # 4. Renderização e Atualização Visual (Acontece 60 vezes por segundo)
-    for pergunta in range(len(lista_perguntas)):
+    if indice < len(lista_perguntas):
         enunciado_atual = Enunciado(lista_perguntas[indice].enunciado, cores['amarelo'], cores['preto'])
         enunciado_atual.desenhar(tela, fonte_botao)
-    
-    
+
     for alt in minhas_alts:
         alt.atualizar(posicao_mouse)
         alt.desenhar(tela, fonte_botao)

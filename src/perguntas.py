@@ -1,6 +1,6 @@
 import pygame
 class Pergunta:
-    def __init__(self, enunciado: str, alternativas: tuple, materia: str, id=None, alternativa_correta=None, dificuldade=None):
+    def __init__(self, enunciado: str, alternativas: tuple, materia: str, alternativa_correta=None, dificuldade=None):
 
         # A classe Pergunta representa uma pergunta de múltipla escolha, 
         # contendo a pergunta em si, as alternativas disponíveis, 
@@ -14,34 +14,7 @@ class Pergunta:
         self.dificuldade = dificuldade
 
 
-pergunta1 = Pergunta(
-    "Qual é a capital da França?",
-    ("aris", "londres", "roma", "madri"),
-    "Geografia",
-    id = 1,
-    alternativa_correta="paris",
-    dificuldade="facil"
-)
 
-pergunta2 = Pergunta(
-    "Qual é a fórmula da água?",    
-    ("h2o", "co2", "o2", "nacl"),
-    "Química",
-    id = 2,
-    alternativa_correta="h2o",
-    dificuldade="facil"
-)
-
-pergunta3 = Pergunta(
-    "Quem escreveu 'Dom Quixote'?",
-    ("miguel de cervantes", "william shakespeare", "jorge Luis Borges", "gabriel garcía márquez"),
-    "Literatura",
-    id = 3,
-    alternativa_correta="Miguel de Cervantes",
-    dificuldade="facil"
-)
-
-lista_perguntas = [pergunta1, pergunta2, pergunta3]
 
 
 class Enunciado:
@@ -104,4 +77,36 @@ class Alternativa:
     
 
 
-    
+pergunta1 = Pergunta(
+    "Qual é a capital da França?",
+    ("Paris", "Londres", "Roma", "Madri"),
+    "Geografia",
+    alternativa_correta="Paris",
+    dificuldade="facil"
+)
+
+pergunta2 = Pergunta(
+    "Qual é a fórmula da água?",    
+    ("H2O", "CO2", "O2", "NaCl"),
+    "Química",
+    alternativa_correta="H2O",
+    dificuldade="facil"
+)
+
+pergunta3 = Pergunta(
+    "Quem escreveu 'Dom Quixote'?",
+    ("Miguel de Cervantes", "William Shakespeare", "Jorge Luis Borges", "Gabriel García Márquez"),
+    "Literatura",
+    alternativa_correta="Miguel de Cervantes",
+    dificuldade="facil"
+)
+
+pergunta4 = Pergunta(
+    "Quem descobriu o Brasil?",    
+    ("Pedro Álvares Cabral", "Cristóvão Colombo", "Vasco da Gama", "Fernão de Magalhães"),
+    "História",
+    alternativa_correta="Pedro Álvares Cabral",
+    dificuldade="facil"
+)
+
+lista_perguntas = [pergunta1, pergunta2, pergunta3, pergunta4]
