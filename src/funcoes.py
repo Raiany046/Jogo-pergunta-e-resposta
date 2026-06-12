@@ -8,39 +8,46 @@ relogio = pygame.time.Clock()
 def gerenciar_cronometro(tela, fonte, tempo_inicial, tempo_total=15):
     tempo_atual = pygame.time.get_ticks()
     segundos_passados = (tempo_atual - tempo_inicial) // 1000
-    tempo_restante = tempo_total - segundos_passados
+    tempo_restante = max(0, tempo_total - segundos_passados) # Garante que não fique negativo
     
-    if tempo_restante <= 0:
-        tempo_restante = 0
-        
-    # 1. RENDER: Cria a "figurinha" do texto
-    texto_tempo = fonte.render(f"Tempo: {tempo_restante}", True, (255, 255, 255))
+    # --- GEOMETRIA DO CRONÔMETRO (Alinhado com o Enunciado) ---
+    # Baseado na nossa tabela: X=640, Y=40, Largura=120, Altura=120
+    raio = 60
+    centro_x = 640 + raio  # 700
+    centro_y = 40 + raio   # 100
     
-    # --- MATEMÁTICA PARA O CANTO SUPERIOR DIREITO ---
-    # Pegamos a largura total da tela (ex: 800)
-    largura_da_tela = tela.get_width() 
+    # 1. DESENHA O CÍRCULO (Fundo do Cronômetro)
+    # Substitua as cores pelas variáveis que você está usando (ex: cores['azul_claro'])
+    cor_circulo = (40, 40, 40) # Uma cor de fundo para o círculo
+    pygame.draw.circle(tela, cor_circulo, (centro_x, centro_y), raio)
     
-    # Subtraímos a largura do texto para ele não ficar escondido, 
-    # e tiramos mais uns 20 pixels de margem para não colar na borda.
-    posicao_x = largura_da_tela - texto_tempo.get_width() - 20
-    posicao_y = 20 # 20 pixels para baixo do topo
+    # Opcional: Desenhar uma borda no círculo para dar acabamento
+    cor_borda = (255, 255, 255)
+    pygame.draw.circle(tela, cor_borda, (centro_x, centro_y), raio, 3) # Espessura 3
     
-    # 2. BLIT: Carimba o texto na posição certa
-    tela.blit(texto_tempo, (posicao_x, posicao_y))
+    # 2. RENDERIZA APENAS O NÚMERO
+    texto_tempo = fonte.render(str(tempo_restante), True, (255, 255, 255))
+    
+    # 3. CENTRALIZA O TEXTO NO CÍRCULO
+    # Pegamos o retângulo do texto gerado e jogamos o centro dele para o centro do círculo
+    texto_rect = texto_tempo.get_rect()
+    texto_rect.center = (centro_x, centro_y)
+    
+    # 4. BLIT: Desenha o número centralizado
+    tela.blit(texto_tempo, texto_rect)
     
     return tempo_restante == 0
 
-def pontuar(pergunta, pontuacao_atual, resposta):
+def pontuar(pergunta, pontuacao_atual):
     '''
     Esta função calcula e RETORNA a pontuação atualizada do jogador.
     '''
 
-    if resposta == pergunta.alternativa_correta:
-        if pergunta.dificuldade == 'facil':
+    if pergunta.dificuldade == 'facil':
             pontuacao_atual += 1
-        elif pergunta.dificuldade == 'media':
+    elif pergunta.dificuldade == 'media':
             pontuacao_atual += 2
-        elif pergunta.dificuldade == 'dificil':
+    elif pergunta.dificuldade == 'dificil':
             pontuacao_atual += 3
     return pontuacao_atual # Retorna o novo valor para quem chamou
 
@@ -48,7 +55,7 @@ def perder_vida(vidas_atuais):
     '''
     Esta função calcula e RETORNA a quantidade de vidas atualizada do jogador.
     '''
-    
+
     vidas_atuais -= 1
     return vidas_atuais
 

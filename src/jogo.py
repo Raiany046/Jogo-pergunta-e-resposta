@@ -59,7 +59,7 @@ def desenhar_tela_inicial():
     tela.fill(COR_FUNDO)
 
     # 2. Desenha o Título do Jogo
-    texto_titulo = fonte_titulo.render("NOME DO JOGO", True, COR_TEXTO)
+    texto_titulo = fonte_titulo.render("Tá sabendo?", True, COR_TEXTO)
     # Centraliza o texto horizontalmente e define a altura (100 pixels do topo)
     x_titulo = (LARGURA - texto_titulo.get_width()) // 2
     tela.blit(texto_titulo, (x_titulo, 100))
@@ -86,6 +86,7 @@ def desenhar_tela_inicial():
 rodando_menu = True
 rodando = True
 relogio = pygame.time.Clock()
+tempo_inicial = pygame.time.get_ticks()
 
 while rodando_menu:
 
@@ -147,16 +148,20 @@ while rodando:
                         pontuacao = pontuar(lista_perguntas[indice], pontuacao)
                         indice += 1
                         pergunta_carregada = False  # Próxima pergunta será carregada
+                        tempo_inicial = pygame.time.get_ticks()
                     else:
                         vidas = perder_vida(vidas)
                         indice += 1
                         pergunta_carregada = False  # Próxima pergunta será carregada
+                        tempo_inicial = pygame.time.get_ticks()
                         if vidas == 0:
                             rodando = False
 
     # 3. Gerenciamento de Carga (Instancia as alternativas uma vez por pergunta)
     if not pergunta_carregada:
+
         minhas_alts = [] # Limpa as anteriores para carregar as novas
+
         for i, alternativa in enumerate(lista_perguntas[indice].alternativas):
             if i == 0:
                 posicao = (40, 220)
@@ -182,7 +187,11 @@ while rodando:
         alt.desenhar(tela, fonte_botao)
         
     # O cronômetro fica fora do 'for alt', no escopo principal do loop
-    gerenciar_cronometro(tela, fonte_botao, 15)
+    if gerenciar_cronometro(tela, fonte, tempo_inicial, 15):
+        vidas = perder_vida(vidas)
+        indice += 1
+        pergunta_carregada = False
+        tempo_inicial = pygame.time.get_ticks()
 
     pygame.display.flip()
     relogio.tick(60)
