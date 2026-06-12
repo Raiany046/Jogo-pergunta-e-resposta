@@ -20,6 +20,15 @@ COR_TEXTO = (255, 255, 255)      # Branco
 COR_BOTAO = (50, 150, 250)       # Azul claro
 COR_BOTAO_HOVER = (80, 180, 255) # Azul mais claro para o efeito do mouse
 
+cores = {
+    'branco': (255, 255, 255),
+    'azul_claro': (50, 150, 250),
+    'verde': (50, 250, 50),
+    'vermelho': (250, 50, 50),
+    'amarelo': (250, 250, 50),  
+    'preto': (0, 0, 0),
+}
+
 # --- Fontes ---
 # Se quiser usar fontes padrão do sistema, usamos SysFont
 fonte_titulo = pygame.font.SysFont("Arial", 64, bold=True)
@@ -75,10 +84,11 @@ def desenhar_tela_inicial():
 
 # --- Loop Principal da Tela Inicial ---
 rodando_menu = True
+rodando = True
 relogio = pygame.time.Clock()
 
 while rodando_menu:
-    # Gerenciamento de eventos
+
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
@@ -91,13 +101,96 @@ while rodando_menu:
                     print("Botão Jogar clicado! Iniciando o jogo...")
                     rodando_menu = False # Sai do menu e avança no código
 
-    # Desenha os elementos na tela
     desenhar_tela_inicial()
 
-    # Atualiza a tela
     pygame.display.flip()
     
-    # Limita o framerate a 60 FPS
     relogio.tick(60)
 
+
+
+#começa a rodar o jogo
+tela.fill(COR_FUNDO) #limpa a tela para começar o jogo
+
+
+random.shuffle(lista_perguntas)
+pontuacao = 0
+vidas = 0
+
+indice = 0
+pergunta_carregada = False
+minhas_alts = []
+
+# (Certifique-se de que 'minhas_alts = []' foi criada antes de entrar aqui)
+
+while rodando:
+    tela.fill(COR_FUNDO)
+    posicao_mouse = pygame.mouse.get_pos()
+
+    # 1. Verificação de parada
+    if indice >= len(lista_perguntas):
+        rodando = False
+        break
+
+    # 2. Loop de Eventos (Captura ações do usuário)
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            rodando = False
+
+        # Verifica o clique APENAS quando o evento acontecer
+        if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+            # Aqui você verifica se clicou em alguma alternativa
+            for alt in minhas_alts:
+                if alt.foi_clicada(posicao_mouse):
+                    resposta_clicada = alt.texto
+                    if resposta_clicada == lista_perguntas[indice].alternativa_correta:
+                        pontuacao = pontuar(lista_perguntas[indice], pontuacao)
+                        indice += 1
+                        pergunta_carregada = False  # Próxima pergunta será carregada
+                    else:
+                        vidas = perder_vida(vidas)
+                        indice += 1
+                        pergunta_carregada = False  # Próxima pergunta será carregada
+                        if vidas == 0:
+                            rodando = False
+
+    # 3. Gerenciamento de Carga (Instancia as alternativas uma vez por pergunta)
+    if not pergunta_carregada:
+        minhas_alts = [] # Limpa as anteriores para carregar as novas
+        for i, alternativa in enumerate(lista_perguntas[indice].alternativas):
+            if i == 0:
+                posicao = (40, 220)
+            elif i == 1:
+                posicao = (410, 220)
+            elif i == 2:
+                posicao = (40, 400)
+            elif i == 3:
+                posicao = (410, 400)
+            
+            minhas_alts.append(Alternativa(posicao, alternativa, cores['azul_claro'], cores['verde'], cores['preto']))
+        
+        pergunta_carregada = True
+
+    # 4. Renderização e Atualização Visual (Acontece 60 vezes por segundo)
+    for pergunta in range(len(lista_perguntas)):
+        enunciado_atual = Enunciado(lista_perguntas[indice].enunciado, cores['amarelo'], cores['preto'])
+        enunciado_atual.desenhar(tela, fonte_botao)
     
+    
+    for alt in minhas_alts:
+        alt.atualizar(posicao_mouse)
+        alt.desenhar(tela, fonte_botao)
+        
+    # O cronômetro fica fora do 'for alt', no escopo principal do loop
+    gerenciar_cronometro(tela, fonte_botao, 15)
+
+    pygame.display.flip()
+    relogio.tick(60)
+    
+    
+                        
+
+    
+
+
+#se a resposta for errada ou o cronômetro zerar, perde uma vida e passa pra próxima

@@ -1,7 +1,7 @@
 import time
 import pygame
 
-
+pygame.font.init()
 fonte = pygame.font.SysFont("Arial", 48)
 relogio = pygame.time.Clock()
 
