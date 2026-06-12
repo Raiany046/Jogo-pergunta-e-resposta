@@ -188,9 +188,4 @@ while rodando:
     relogio.tick(60)
     
     
-                        
-
-    
-
-
-#se a resposta for errada ou o cronômetro zerar, perde uma vida e passa pra próxima
+pygame.quit()

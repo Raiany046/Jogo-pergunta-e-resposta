@@ -48,6 +48,7 @@ def perder_vida(vidas_atuais):
     '''
     Esta função calcula e RETORNA a quantidade de vidas atualizada do jogador.
     '''
+    
     vidas_atuais -= 1
     return vidas_atuais
 
