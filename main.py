@@ -1,4 +1,8 @@
 import pygame
+from dados import salvar_recorde, carregar_recorde
+
+# CAMINHO DO ARQUIVO DE RECORDE
+ARQUIVO_RECORDE = "recorde.txt"
 
 # CLASSE PERGUNTA
 
@@ -62,6 +66,11 @@ pergunta_atual = perguntas[indice_pergunta]
 
 resultado = ""
 botoes = []
+
+# PONTUAÇÃO E RECORDE
+pontuacao = 0
+recorde = carregar_recorde(ARQUIVO_RECORDE)
+PONTOS_POR_ACERTO = 10
 
 
 # FUNÇÃO DESENHAR

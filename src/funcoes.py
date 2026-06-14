@@ -1,5 +1,4 @@
 import time
-<<<<<<< HEAD
 import pygame
 
 pygame.font.init()
@@ -59,33 +58,6 @@ def perder_vida(vidas_atuais):
 
     vidas_atuais -= 1
     return vidas_atuais
-=======
-
-def cronometro():
-    inicio = time.time()
-    for i in range(1, 16):
-        print(i)
-        time.sleep(1)
-    fim = time.time()
-
-
-def pontuar(pontos, dificuldade):
-    if dificuldade == 'facil':
-        pontos += 10
-    elif dificuldade == 'medio':
-        pontos += 20
-    elif dificuldade == 'dificil':
-        pontos += 30
-    return pontos
-
-def perder_vida(vidas):
-    vidas -= 1
-    return vidas
-
-def calcular_pontos(pontos_atual, pontos_ganhos):
-    """Soma os pontos ganhos à pontuação atual."""
-    return pontos_atual + pontos_ganhos
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
 
 
 

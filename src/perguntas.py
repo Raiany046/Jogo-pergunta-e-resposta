@@ -1,10 +1,6 @@
 import pygame
 class Pergunta:
-<<<<<<< HEAD
     def __init__(self, enunciado: str, alternativas: tuple, materia: str, alternativa_correta=None, dificuldade=None):
-=======
-    def __init__(self, pergunta: str, alternativas: tuple, materia: str, id=None, alternativa_correta=None, dificuldade=None):
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
 
         # A classe Pergunta representa uma pergunta de múltipla escolha, 
         # contendo a pergunta em si, as alternativas disponíveis, 
@@ -16,7 +12,6 @@ class Pergunta:
         self.materia = materia
         self.alternativa_correta = alternativa_correta
         self.dificuldade = dificuldade
-<<<<<<< HEAD
 
 
 
@@ -80,18 +75,12 @@ class Alternativa:
         # Retorna True se o clique do mouse aconteceu dentro deste botão
         return self.rect.collidepoint(posicao_mouse)
     
-=======
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
 
 
 pergunta1 = Pergunta(
     "Qual é a capital da França?",
     ("Paris", "Londres", "Roma", "Madri"),
     "Geografia",
-<<<<<<< HEAD
-=======
-    id = 1,
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
     alternativa_correta="Paris",
     dificuldade="facil"
 )
@@ -100,10 +89,6 @@ pergunta2 = Pergunta(
     "Qual é a fórmula da água?",    
     ("H2O", "CO2", "O2", "NaCl"),
     "Química",
-<<<<<<< HEAD
-=======
-    id = 2,
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
     alternativa_correta="H2O",
     dificuldade="facil"
 )
@@ -112,15 +97,10 @@ pergunta3 = Pergunta(
     "Quem escreveu 'Dom Quixote'?",
     ("Miguel de Cervantes", "William Shakespeare", "Jorge Luis Borges", "Gabriel García Márquez"),
     "Literatura",
-<<<<<<< HEAD
-=======
-    id = 3,
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3
     alternativa_correta="Miguel de Cervantes",
     dificuldade="facil"
 )
 
-<<<<<<< HEAD
 pergunta4 = Pergunta(
     "Quem descobriu o Brasil?",    
     ("Pedro Álvares Cabral", "Cristóvão Colombo", "Vasco da Gama", "Fernão de Magalhães"),
@@ -130,6 +110,3 @@ pergunta4 = Pergunta(
 )
 
 lista_perguntas = [pergunta1, pergunta2, pergunta3, pergunta4]
-=======
-lista_perguntas = [pergunta1, pergunta2, pergunta3]
->>>>>>> cd5ddd33b907c68e93f94778ef284e0c65ddebf3

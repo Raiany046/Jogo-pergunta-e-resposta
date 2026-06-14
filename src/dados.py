@@ -2,6 +2,7 @@ def salvar_recorde(caminho_arquivo, pontuacao):
     """Salva a pontuação recorde em arquivo texto."""
     with open(caminho_arquivo, "w", encoding="utf-8") as arquivo:
         arquivo.write(str(pontuacao))
+        #Salvamento de pontuação, registro, e placares
 
 
 def carregar_recorde(caminho_arquivo):
