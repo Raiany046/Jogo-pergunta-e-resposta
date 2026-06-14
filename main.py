@@ -1,8 +1,10 @@
 import pygame
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
 from dados import salvar_recorde, carregar_recorde
 
-# CAMINHO DO ARQUIVO DE RECORDE
-ARQUIVO_RECORDE = "recorde.txt"
+BASE_DIR = os.path.dirname(__file__)
 
 # CLASSE PERGUNTA
 
@@ -60,6 +62,7 @@ tela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Tá Sabendo?")
 
 fonte = pygame.font.SysFont(None, 36)
+fonte_pequena = pygame.font.SysFont(None, 28)
 
 indice_pergunta = 0
 pergunta_atual = perguntas[indice_pergunta]
@@ -68,9 +71,10 @@ resultado = ""
 botoes = []
 
 # PONTUAÇÃO E RECORDE
+ARQUIVO_RECORDE = os.path.join(BASE_DIR, "data", "recorde.txt")
+PONTOS_POR_ACERTO = 10
 pontuacao = 0
 recorde = carregar_recorde(ARQUIVO_RECORDE)
-PONTOS_POR_ACERTO = 10
 
 
 # FUNÇÃO DESENHAR
@@ -124,12 +128,54 @@ def desenhar():
     texto_resultado = fonte.render(
         resultado,
         True,
-        (0, 150, 0)
+        (0, 150, 0) if "Acertou" in resultado else (200, 0, 0)
     )
 
     tela.blit(texto_resultado, (50, 500))
 
     pygame.display.flip()
+
+
+# TELA FINAL
+
+
+def desenhar_tela_fim():
+
+    tela.fill((255, 255, 255))
+
+    novo_recorde = pontuacao > recorde
+
+    msg_titulo = "Novo Recorde!" if novo_recorde else "Fim de Jogo!"
+    cor_titulo = (200, 100, 0) if novo_recorde else (0, 0, 180)
+
+    titulo = fonte.render(msg_titulo, True, cor_titulo)
+    tela.blit(titulo, (LARGURA // 2 - titulo.get_width() // 2, 150))
+
+    txt_pontos = fonte.render(
+        f"Sua pontuação: {pontuacao} pontos",
+        True,
+        (0, 0, 0)
+    )
+    tela.blit(txt_pontos, (LARGURA // 2 - txt_pontos.get_width() // 2, 230))
+
+    recorde_exibido = pontuacao if novo_recorde else recorde
+    txt_recorde = fonte.render(
+        f"Recorde: {recorde_exibido} pontos",
+        True,
+        (200, 150, 0)
+    )
+    tela.blit(txt_recorde, (LARGURA // 2 - txt_recorde.get_width() // 2, 290))
+
+    acertos = pontuacao // PONTOS_POR_ACERTO
+    txt_acertos = fonte_pequena.render(
+        f"Você acertou {acertos} de {len(perguntas)} pergunta(s).",
+        True,
+        (80, 80, 80)
+    )
+    tela.blit(txt_acertos, (LARGURA // 2 - txt_acertos.get_width() // 2, 350))
+
+    pygame.display.flip()
+
 
 # LOOP PRINCIPAL
 
@@ -149,7 +195,8 @@ while rodando:
                 if rect.collidepoint(evento.pos):
 
                     if alternativa == pergunta_atual.alternativa_correta:
-                        resultado = "Acertou!"
+                        pontuacao += PONTOS_POR_ACERTO
+                        resultado = f"Acertou! +{PONTOS_POR_ACERTO} pontos"
                     else:
                         resultado = "Errou!"
                     desenhar()
@@ -161,10 +208,13 @@ while rodando:
                         pergunta_atual = perguntas[indice_pergunta]
                         resultado = ""
 
-                    else: 
-                        resultado = "Fim do jogo!"
-                        desenhar()
-                        pygame.time.delay(2000)
+                    else:
+                        if pontuacao > recorde:
+                            recorde = pontuacao
+                            salvar_recorde(ARQUIVO_RECORDE, recorde)
+
+                        desenhar_tela_fim()
+                        pygame.time.delay(3000)
                         rodando = False
 
     desenhar()
